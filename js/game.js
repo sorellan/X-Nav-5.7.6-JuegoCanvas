@@ -50,6 +50,14 @@ monsterImage.onload = function () {
 };
 monsterImage.src = "images/monster.png";
 
+// armor image
+var armorReady = false;
+var armorImage = new Image();
+armorImage.onload = function () {
+	armorReady = true;
+};
+armorImage.src = "images/armour1.gif";
+
 // Game objects
 var hero = {
 	speed: 256 // movement in pixels per second
@@ -59,6 +67,7 @@ var stones_array = [];
 var monsters_array = [];
 var princessesCaught = 0;
 var level = 1;
+var lives = 3;
 
 // Handle keyboard controls
 var keysDown = {};
@@ -211,8 +220,12 @@ var update = function (modifier) {
 		}
 	}
 	if (ok) {
-		princessesCaught = 0;
-		level = 1;
+		lives -= 1;
+		if (lives == 0) {
+			princessesCaught = 0;
+			level = 1;
+			lives = 3;
+		}
 		reset();
 	}
 };
@@ -251,6 +264,7 @@ var render = function () {
 	ctx.textBaseline = "top";
 	ctx.fillText("Princesses caught: " + princessesCaught, 32, 32);
 	ctx.fillText("Level: " + level, 32, 64);
+	ctx.fillText("Lives: " + lives, 32, 96);
 };
 
 // The main game loop
